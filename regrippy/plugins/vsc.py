@@ -35,23 +35,21 @@ class Plugin(BasePlugin):
 
             for v in key.values():
                 res = PluginResult(key=key, value=v)
-                res.custom["Path"] = path
                 res.custom["Value"] = v.value()
-
                 dt = key.timestamp()
                 res.custom['Last Write Time'] = dt.isoformat('T') + 'Z'
                 yield res
 
     def display_human(self, result):
-        if "VSS" in result.custom['Path']:
-            print(r"{0}\{1} {2} {3}".format(result.custom['Path'], result.value_name, result.custom["Value"],
+        if result.key_name == "VSS":
+            print(r"{0}\{1} {2} {3}".format(result.path, result.value_name, result.custom["Value"],
                                             result.custom['Last Write Time']))
         else:
-            print(r"{0}\{1} {2}".format(result.custom['Path'], result.value_name, result.custom['Last Write Time']))
+            print(r"{0}\{1} {2}".format(result.path, result.value_name, result.custom['Last Write Time']))
 
     def display_machine(self, result):
-        if "VSS" in result.custom['Path']:
-            print(mactime(name=f"{result.custom['Path']}\{result.value_name} {result.custom['Value']}",
+        if result.key_name == "VSS":
+            print(mactime(name=f"{result.path}\{result.value_name} {result.custom['Value']}",
                           mtime=result.mtime))
         else:
-            print(mactime(name=f"{result.custom['Path']}\{result.value_name}", mtime=result.mtime))
+            print(mactime(name=f"{result.path}\{result.value_name}", mtime=result.mtime))
