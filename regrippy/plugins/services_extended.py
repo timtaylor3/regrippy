@@ -14,22 +14,22 @@ class Plugin(BasePlugin):
             try:
                 display_name = v.value("DisplayName").value()
             except:
-                display_name = "None Found"
+                display_name = "N/A"
 
             try:
                 description = v.value("Description").value()
             except:
-                description = "None Found"
+                description = "N/A"
 
             try:
                 image_path = v.value("ImagePath").value()
             except:
-                image_path = "None Found"
+                image_path = "N/A"
 
             try:
                 dll = v.subkey("Parameters").value("ServiceDll").value()
             except:
-                dll = "None Found"
+                dll = "N/A"
 
             try:
                 if v.value("Start").value() == 0:
@@ -43,10 +43,30 @@ class Plugin(BasePlugin):
                 elif v.value("Start").value() == 4:
                     start_type = 'Disable'
             except:
-                start_type = "None Found"
+                start_type = "N/A"
+
+            try:
+                if v.value("Type").value() == 1:
+                    service_type = 'KernelDRiver'
+                elif v.value("Type").value() == 2:
+                    service_type = 'FileSystemDriver'
+                elif v.value("Type").value() == 4:
+                    service_type = 'Adapter'
+                elif v.value("Type").value() == 8:
+                    service_type = 'RecognizerDriver'
+                elif v.value("Type").value() == 16:
+                    service_type = 'Win32OwnProcess'
+                elif v.value("Type").value() == 32:
+                    service_type = 'Win32ShareProcess'
+                elif v.value("Type").value() == 256:
+                    service_type = 'InteractiveProcess'
+
+            except:
+                service_type = "N/A"
 
             message = 'Service Name: {0}, Display Name: {1}, Image Path: {2}, DLL: {3}, Description: {4}, ' \
-                      'Start Type: {5}'.format(v.name(), display_name, image_path, dll, description, start_type)
+                      'Start Type: {5}, Service Type: {6}'.format(v.name(), display_name, image_path, dll,
+                                                                  description, start_type, service_type)
 
             res = PluginResult(key=key, value=None)
             res.custom["message"] = message
