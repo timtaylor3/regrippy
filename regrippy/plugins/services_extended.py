@@ -58,4 +58,4 @@ class Plugin(BasePlugin):
         print(result.custom["message"], result.custom['Last Write Time'])
 
     def display_machine(self, result):
-        print(mactime(name=f"{result.key_name}\t{result.custom['message']}", mtime=result.mtime))
+        print(mactime(name=f"{result.custom['message']}", mtime=result.mtime))
