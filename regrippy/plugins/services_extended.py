@@ -13,22 +13,24 @@ class Plugin(BasePlugin):
         for v in key.subkeys():
             try:
                 display_name = v.value("DisplayName").value()
-            except:
+            except Registry.RegistryValueNotFoundException:
                 display_name = "N/A"
 
             try:
                 description = v.value("Description").value()
-            except:
+            except Registry.RegistryValueNotFoundException:
                 description = "N/A"
 
             try:
                 image_path = v.value("ImagePath").value()
-            except:
+            except Registry.RegistryValueNotFoundException:
                 image_path = "N/A"
 
             try:
                 dll = v.subkey("Parameters").value("ServiceDll").value()
-            except:
+            except Registry.RegistryKeyNotFoundException:
+                dll = "N/A"
+            except Registry.RegistryValueNotFoundException:
                 dll = "N/A"
 
             try:
@@ -42,7 +44,7 @@ class Plugin(BasePlugin):
                     start_type = 'Manual'
                 elif v.value("Start").value() == 4:
                     start_type = 'Disable'
-            except:
+            except Registry.RegistryValueNotFoundException:
                 start_type = "N/A"
 
             try:
@@ -61,7 +63,7 @@ class Plugin(BasePlugin):
                 elif v.value("Type").value() == 256:
                     service_type = 'InteractiveProcess'
 
-            except:
+            except Registry.RegistryValueNotFoundException:
                 service_type = "N/A"
 
             message = 'Service Name: {0}, Display Name: {1}, Image Path: {2}, DLL: {3}, Description: {4}, ' \
